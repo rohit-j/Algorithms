@@ -1,0 +1,121 @@
+Check if a number is Palindrome:
+Given an integer n, determine whether it is a palindrome number or not. A number is called a palindrome if it reads the same from forward and backward.
+
+Input: n = 1234
+Output:  False
+
+Examples:
+Input: n = 12321
+Output: True
+
+Input: n = -121
+Output: True
+
+Reversing the number directly:
+C++
+#include <iostream>
+using namespace std;
+
+bool isPalindrome(int n) {
+    int reverse = 0;
+  
+    // Copy of the original number so that the original
+    // number remains unchanged while finding the reverse
+    int temp = abs(n);
+    while (temp != 0) {
+        reverse = (reverse * 10) + (temp % 10);
+        temp = temp / 10;
+    }
+    
+    // If reverse is equal to the original number,
+    // the number is palindrome
+    return (reverse == abs(n));
+}
+
+int main() {
+    int n = 12321;
+    if (isPalindrome(n) == 1) {
+        cout << "True";
+    }
+    else {
+        cout << "False";
+    }
+    return 0;
+}
+
+Python:
+def isPalindrome(n):
+    reverse = 0
+
+    # Copy of the original number so that the original number remains unchanged while finding the reverse
+    temp = abs(n)
+    while temp != 0:
+        reverse = (reverse * 10) + (temp % 10)
+        temp = temp // 10
+
+    # If reverse is equal to the original number, the number is palindrome
+    return (reverse == abs(n))
+    
+if __name__ == "__main__":
+    
+    n = 12321
+    if isPalindrome(n) == True:
+        print("True")
+    else:
+        print("False")
+
+When the input number exceeds 1018 , reversing it as an integer can cause overflow in languages like C, C++, and Java. 
+To avoid this, treat the number as a string and compare characters from both ends towards the center.
+
+Converting the integer to string and reverse the string:
+C++:
+#include <iostream>
+using namespace std;
+
+bool isPalindrome(int n) {
+
+    // Convert the absolute value of number to string
+    string s = to_string(abs(n));
+	int len = s.length();
+
+    for (int i = 0; i < len / 2; i++) {
+
+        // Comparing i th character from starting and len-i th character from end
+        if (s[i] != s[len - i - 1])
+            return false;
+    }
+    return true;
+}
+
+int main() {
+    int n = 12321;
+    if (isPalindrome(n) == 1) {
+        cout << "True";
+    }
+    else {
+        cout << "False";
+    }
+    return 0;
+}
+
+
+Python:
+def isPalindrome(n):
+
+    # Convert the absolute value of number to string
+    s = str(abs(n))
+    length = len(s)
+
+    for i in range(length // 2):
+
+        # Comparing i th character from starting and len-i th character from end
+        if s[i] != s[length - i - 1]:
+            return False
+    return True
+    
+if __name__ == "__main__":
+    n = 12321
+    if isPalindrome(n) == True:
+        print("True")
+    else:
+    print("False")
