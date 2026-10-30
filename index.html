@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Algorithms</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 2rem; background-color: #E6BE8A; }
+    pre { background: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { createRoot } = ReactDOM;
+
+    function App() {
+      const codeLCS = `# Longest common subsequence
+"""
+                         lcs("AXYT", "AYZX")
+                       /                 
+         lcs("AXY", "AYZX")            lcs("AXYT", "AYZ")
+         /                              /               
+lcs("AX", "AYZX") lcs("AXY", "AYZ")   lcs("AXY", "AYZ") lcs("AXYT", "AY")
+"""
+# A Naive recursive Python implementation of LCS problem 
+def lcs2(X, Y, m, n): 
+  if m == 0 or n == 0: 
+   return 0; 
+  elif X[m-1] == Y[n-1]: 
+   return 1 + lcs(X, Y, m-1, n-1); 
+  else: 
+   return max(lcs(X, Y, m, n-1), lcs(X, Y, m-1, n)); 
+# Time complexity of the above naive recursive approach is O(2^n) in worst case and worst case happens when all characters of X and Y mismatch i.e., length of LCS is 0.
+# Considering the above implementation, following is a partial recursion tree for input strings “AXYT” and “AYZX”
+
+# In the above partial recursion tree, lcs(“AXY”, “AYZ”) is being solved twice. 
+# If we draw the complete recursion tree, then we can see that there are many subproblems which
+# are solved again and again. So this problem has Overlapping Substructure property and recomputation of same subproblems
+# can be avoided by either using Memoization or Tabulation. Following is a tabulated implementation for the LCS problem.
+def lcs(A,B):
+ m,n = len(A), len(B)
+ L = [[None]*(n+1) for i in range(m+1)]
+ for i in range(m+1):
+  for j in range(n+1):
+   if i==0 or j==0:
+    L[i][j] = 0
+   elif A[i-1] == B[j-1]:
+    L[i][j] = 1 + L[i-1][j-1]
+   else:
+    L[i][j] = max(L[i-1][j], L[i][j-1])
+ for i in L:
+  print (" ".join([str(j) for j in i]))
+ return L[m][n]
+"""
+lcs("ABCDGH", "AEDFHR")
+0 0 0 0 0 0 0
+0 1 1 1 1 1 1
+0 1 1 1 1 1 1
+0 1 1 1 1 1 1
+0 1 1 2 2 2 2
+0 1 1 2 2 2 2
+0 1 1 2 2 3 3
+3
+"""
+lcs("ABCDGH", "AEDFHR")`;
+      const codeLIS = `def lis(A, i, mem):
+  if i<0: return 1
+  maxElement = -9999
+  for j in range(0,i):
+    if A[j] <= A[i]:
+      val = mem[j] if j in mem else lis(A, j, mem)
+      if val > maxElement:
+        maxElement = val
+  maxElement = 1 if maxElement==-9999 else 1+maxElement
+  mem[i] = maxElement
+  print (mem)
+  return maxElement`;
+
+      return (
+        <div>
+          <h1>Longest Common Subsequence</h1>
+          <pre><code>{codeLCS}</code></pre>
+
+          <h1>Longest Increasing Subsequence</h1>
+          <pre><code>{codeLIS}</code></pre>
+        </div>
+      );
+    }
+
+    createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>   
